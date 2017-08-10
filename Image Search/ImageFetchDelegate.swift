@@ -10,6 +10,6 @@ import Foundation
 
 protocol ImageFetchDelegate {
 	func reloadCollectionViewData()
-	func addMoreCells()
+	func addMorePhotos()
 	func showAlertError(errorMessage: String)
 }

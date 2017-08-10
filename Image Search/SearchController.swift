@@ -42,7 +42,7 @@ class SearchController {
 	
 	func makeRequest() {
 		Alamofire.request(URL(string: searchURL)!, method: .get, parameters: parameters).validate().responseJSON(completionHandler: { response in
-			print("Request: \n\(response.request)")
+			print("Request: \n\(String(describing: response.request))")
 			
 			guard response.result.isSuccess else {
 				if let error = response.error {
@@ -53,16 +53,16 @@ class SearchController {
 				return
 			}
 			
-			let json = JSON(response.data)
+			let json = JSON(response.data!)
 
-			for (index, photo) in json["photos"] {
+			for (_, photo) in json["photos"] {
 				let photoEntry = Photo(photoData: photo)
 				self.photos.append(photoEntry)
 			}
 			
 			print("Photos Count: \(self.photos.count)")
 			if self.appendingArray == true {
-				self.imageFetchDelegate?.addMoreCells()
+				self.imageFetchDelegate?.addMorePhotos()
 			} else {
 				// Let the SearchViewController that we're ready to reload the CollectionView with the initial request
 				self.imageFetchDelegate?.reloadCollectionViewData()

@@ -25,16 +25,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		searchController.makeRequest()
 		setupActivityIndicator()
 	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		
-	}
 
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
 	func setupActivityIndicator() {
 		activityIndicator.hidesWhenStopped = true
 		activityIndicator.activityIndicatorViewStyle = .whiteLarge
@@ -55,22 +46,28 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func reloadCollectionViewData() {
+		// Called when we search for a keyword
 		print("Reloading Collection data")
 		searchCollectionView.reloadData()
 		searchCollectionView.setContentOffset(CGPoint.zero, animated: false)
 		hideActivityIndicator()
 	}
 	
-	func addMoreCells() {
-		print("Adding cells for inifine scroll")
+	func addMorePhotos() {
+		// Called when we send a request for more entries
+		print("Adding cells for infinite scroll")
 		searchCollectionView.reloadData()
 	}
 	
 	func showAlertError(errorMessage: String) {
-		// TODO Show alert with error message
 		let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
 		present(alert, animated: true, completion: nil)
+	}
+	
+	func showFullscreenImage(forIndex: Int) {
+		let imgView = UIImageView(frame: CGRect(x: view.bounds.width/2, y: view.bounds.height/2, width: view.bounds.width*0.9, height: view.bounds.height*0.75))
+		
 	}
 	
 	// MARK: UICollectionView Functions
@@ -88,14 +85,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
 		return searchController.photos.count
 	}
 	
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		print("Selected")
-		
+		showFullscreenImage(forIndex: indexPath.row)
 		print(searchController.photos[indexPath.row])
 		
 	}
@@ -126,16 +122,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		return cell
 	}
 	
-	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-		// Called just so we can realign the activity indicator to the center
-		coordinator.animate(alongsideTransition: { _ in
-			self.activityIndicator.center = self.view.center
-		}, completion: { _ in
-			self.searchCollectionView.reloadData()
-		})
-		
-	}
-	
 	// MARK: SearchBar Functions
 	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		print("Editing has begun")
@@ -158,4 +144,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		searchBar.resignFirstResponder()
 	}
 	
+	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+		// Called just so we can realign the activity indicator to the center
+		coordinator.animate(alongsideTransition: { _ in
+			self.activityIndicator.center = self.view.center
+		}, completion: { _ in
+			self.searchCollectionView.reloadData()
+		})
+		
+	}
 }
