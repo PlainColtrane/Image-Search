@@ -57,8 +57,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	func reloadCollectionViewData() {
 		print("Reloading Collection data")
 		searchCollectionView.reloadData()
-		searchCollectionView.setContentOffset(CGPoint.zero, animated: true)
+		searchCollectionView.setContentOffset(CGPoint.zero, animated: false)
 		hideActivityIndicator()
+	}
+	
+	func addMoreCells() {
+		print("Adding cells for inifine scroll")
+		searchCollectionView.reloadData()
 	}
 	
 	func showAlertError(errorMessage: String) {
@@ -87,6 +92,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 	}
+	
 
 
 	
@@ -100,8 +106,17 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		guard searchController.photos.count > 0 else {
 			return cell
 		}
+		
 		cell.imageTitleLabel.text = self.searchController.photos[indexPath.row].name
-		cell.searchImageView.af_setImage(withURL: URL(string: self.searchController.photos[indexPath.row].imageURL!)!)
+		cell.searchImageView.af_setImage(withURL: URL(string: searchController.photos[indexPath.row].imageURL!)!)
+		
+//		print("The difference is: \n\(searchController.photos.count - indexPath.item)")
+		
+		if (searchController.photos.count - indexPath.item) == 1 {
+			// Do nothing
+			searchController.incrementPage()
+			searchController.makeRequest()
+		}
 		
 		return cell
 	}

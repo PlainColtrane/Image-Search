@@ -23,6 +23,8 @@ class SearchController {
 	var parameters: [String: String] = [:]
 	var photos: [Photo] = []
 	
+	var appendingArray = false
+	
 	init() {
 		parameters["consumer_key"] = consumerKey
 		parameters["term"] = "dogs"
@@ -30,7 +32,9 @@ class SearchController {
 	}
 	
 	func searchForKeyWord(keyword: String) {
+		appendingArray = false
 		photos.removeAll()
+		parameters["page"] = "1"
 		parameters["term"] = keyword
 		makeRequest()
 	}
@@ -51,10 +55,22 @@ class SearchController {
 			for (index, photo) in json["photos"] {
 				let photoEntry = Photo(photoData: photo)
 				self.photos.append(photoEntry)
-//				self.downloadImage(forIndex: Int(index)!)
 			}
-			// Let the SearchViewController that we're ready to reload the CollectionView
-			self.imageFetchDelegate?.reloadCollectionViewData()
+			
+			print("Photos Count: \n\(self.photos.count)")
+			if self.appendingArray == true {
+				self.imageFetchDelegate?.addMoreCells()
+			} else {
+				// Let the SearchViewController that we're ready to reload the CollectionView with the initial request
+				self.imageFetchDelegate?.reloadCollectionViewData()
+			}
 		})
+	}
+	
+	func incrementPage() {
+		appendingArray = true
+		let i = Int(parameters["page"]!)! + 1
+		parameters["page"] = "\(i)"
+		print("We're on page \n\(parameters["page"])")
 	}
 }
