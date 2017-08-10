@@ -9,13 +9,13 @@
 import Foundation
 import SwiftyJSON
 
-struct Photo {
+struct Photo {	
 	let imageURL: String?
+	var image: UIImage?
 	let name: String?
 	let description: String?
 	let timesViewed: Int?
 	let favoritesCount: Int?
-	let image: UIImage?
 	
 	init(photoData: JSON) {
 		self.imageURL = photoData["images"][0]["url"].stringValue

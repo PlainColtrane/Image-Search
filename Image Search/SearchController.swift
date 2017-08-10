@@ -17,47 +17,42 @@ class SearchController {
 	var imageFetchDelegate: ImageFetchDelegate?
 	
 	let consumerKey = "7XNgKEe25LDq3fGqwGLA9ygEdYXm22XZqhxy4l82"
-	let baseurl = "https://api.500px.com/v1/photos/search"
-	
-	var searchTerm = "dogs"
+	let searchURL = "https://api.500px.com/v1/photos/search"
 	var pageNum = ""
-	var query = "?term=SEARCH_TERM&consumer_key=CONSUMER_KEY&page=PAGE_NUM"
-	
 	var parameters: [String: String] = [:]
 	var photos: [Photo] = []
 	
 	init() {
-//		query = "?term=\(searchTerm)&consumer_key=\(consumerKey)&page=PAGE_NUM"
 		parameters["consumer_key"] = consumerKey
-//		parameters["consumer_key"] = "22"
 		parameters["term"] = "dogs"
 		parameters["page"] = "1"
 	}
 	
+	func searchForKeyWord(keyword: String) {
+		photos.removeAll()
+		parameters["term"] = keyword
+		makeRequest()
+	}
+	
 	func makeRequest() {
-		Alamofire.request(URL(string: baseurl)!, method: .get, parameters: parameters).validate().responseJSON(completionHandler: { response in
-			print("Request: \n\(String(describing: response.request))")
-			print("Response is \n\(String(describing: response.response))")
-			print("Result: \n\(response.result)")
-			
+		Alamofire.request(URL(string: searchURL)!, method: .get, parameters: parameters).validate().responseJSON(completionHandler: { response in
 			guard response.result.isSuccess else {
 				if let error = response.error {
 					print(error.localizedDescription)
+					// Display Alert on SearchViewController with error message
 					self.imageFetchDelegate?.showAlertError(errorMessage: error.localizedDescription)
 				}
 				return
 			}
 			
 			let json = JSON(response.data)
-			
-			for (_,photo) in json["photos"] {
+
+			for (index, photo) in json["photos"] {
 				let photoEntry = Photo(photoData: photo)
 				self.photos.append(photoEntry)
+				self.downloadImage(forIndex: Int(index)!)
 			}
-			print(self.photos.count)
-			print("Photo Array: \n\(self.photos)")
-			
-			// Let
+			// Let the SearchViewController that we're ready to reload the CollectionView
 			self.imageFetchDelegate?.loadCollectionViewData()
 		})
 	}
@@ -65,13 +60,26 @@ class SearchController {
 	func getImage(imageURL: URL, completion: @escaping (_ image: UIImage) -> ()) {
 		var img: UIImage?
 		Alamofire.request(imageURL, method: .get).responseImage { response in
-			guard let image = response.result.value else {
-				print("There was an error retrieving the image")
+			
+			guard response.result.isSuccess else {
 				return
 			}
-			img = UIImage(data: response.data!)
 			
+			img = UIImage(data: response.data!)
 			completion(img!)
+		}
+	}
+	
+	func downloadImage(forIndex: Int) {
+		Alamofire.request(URL(string:photos[forIndex].imageURL!)!, method: .get).responseImage { response in
+			
+			guard response.result.isSuccess else {
+				return
+			}
+			
+			var img: UIImage?
+			img = UIImage(data: response.data!)
+			self.photos[forIndex].image = img
 		}
 	}
 }

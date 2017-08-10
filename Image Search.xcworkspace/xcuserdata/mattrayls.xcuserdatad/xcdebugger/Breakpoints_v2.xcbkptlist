@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Image Search/SearchController.swift"
-            timestampString = "524073269.242208"
+            timestampString = "524084881.560455"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "getImage(imageURL:completion:)"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "downloadImage(forIndex:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
