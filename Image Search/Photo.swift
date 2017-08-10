@@ -11,7 +11,6 @@ import SwiftyJSON
 
 struct Photo {	
 	let imageURL: String?
-	var image: UIImage?
 	let name: String?
 	let description: String?
 	let timesViewed: Int?
@@ -23,6 +22,5 @@ struct Photo {
 		self.description = photoData["description"].stringValue
 		self.timesViewed = photoData["times_viewed"].intValue
 		self.favoritesCount = photoData["favorites_count"].intValue
-		self.image = nil
 	}
 }

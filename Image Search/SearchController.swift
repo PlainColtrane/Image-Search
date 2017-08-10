@@ -29,6 +29,7 @@ class SearchController {
 		parameters["consumer_key"] = consumerKey
 		parameters["term"] = "dogs"
 		parameters["page"] = "1"
+		parameters["image_size"] = "3"
 	}
 	
 	func searchForKeyWord(keyword: String) {
@@ -41,6 +42,8 @@ class SearchController {
 	
 	func makeRequest() {
 		Alamofire.request(URL(string: searchURL)!, method: .get, parameters: parameters).validate().responseJSON(completionHandler: { response in
+			print("Request: \n\(response.request)")
+			
 			guard response.result.isSuccess else {
 				if let error = response.error {
 					print(error.localizedDescription)
@@ -57,7 +60,7 @@ class SearchController {
 				self.photos.append(photoEntry)
 			}
 			
-			print("Photos Count: \n\(self.photos.count)")
+			print("Photos Count: \(self.photos.count)")
 			if self.appendingArray == true {
 				self.imageFetchDelegate?.addMoreCells()
 			} else {
@@ -71,6 +74,6 @@ class SearchController {
 		appendingArray = true
 		let i = Int(parameters["page"]!)! + 1
 		parameters["page"] = "\(i)"
-		print("We're on page \n\(parameters["page"])")
+		print("We're on page \(parameters["page"]!)")
 	}
 }

@@ -80,18 +80,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		
-//		let cellSize = CGSize(width:view.bounds.width/2 - 4, height: view.bounds.width/2 - 4)
-//		let layout = UICollectionViewFlowLayout()
-//		layout.scrollDirection = .vertical //.horizontal
-//		layout.itemSize = cellSize
-//		layout.sectionInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
-//		layout.minimumLineSpacing = 1.0
-//		layout.minimumInteritemSpacing = 1.0
-//		searchCollectionView.setCollectionViewLayout(layout, animated: true)
-//		
-//		searchCollectionView.reloadData()
-		return CGSize(width: self.view.bounds.width/3 - 4, height: self.view.bounds.width/3 - 4 * 1.25)
+		return CGSize(width: self.view.bounds.width/3 - 4, height: self.view.bounds.width/3 - 4)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -99,21 +88,21 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		// #warning Incomplete implementation, return the number of items
-		guard searchController.photos.count > 0 else {
-			return 0
-		}
-		
+
 		return searchController.photos.count
 	}
 	
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		print("Selected")
+		
+		print(searchController.photos[indexPath.row])
 		
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SearchCell
+		
 		cell.layer.cornerRadius = 5
 		cell.layer.borderColor = UIColor.white.cgColor
 		cell.layer.borderWidth = 0.5
@@ -124,13 +113,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		}
 		
 		cell.imageTitleLabel.text = self.searchController.photos[indexPath.row].name
-		cell.searchImageView.af_setImage(withURL: URL(string: searchController.photos[indexPath.row].imageURL!)!)
+		cell.searchImageView.af_setImage(withURL: URL(string: searchController.photos[indexPath.row].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: { _ in
+			
+		})
 		
-//		print("The difference is: \n\(searchController.photos.count - indexPath.item)")
-		
-		if (searchController.photos.count - indexPath.item) == 5 {
-			// Do nothing
-			searchController.incrementPage()
+		// Request the next page automatically
+		if (searchController.photos.count - indexPath.item) == 20 {
+			searchController.incrementPage() // Let the Controller know we want the next page in order
 			searchController.makeRequest()
 		}
 		

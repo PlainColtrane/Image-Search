@@ -11,4 +11,12 @@ import UIKit
 class SearchCell: UICollectionViewCell {
 	@IBOutlet weak var searchImageView: UIImageView!
 	@IBOutlet weak var imageTitleLabel: UILabel!
+
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		
+		searchImageView.af_cancelImageRequest()
+		searchImageView.layer.removeAllAnimations()
+		searchImageView.image = nil
+	}
 }
