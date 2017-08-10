@@ -15,6 +15,7 @@ class SearchController {
 	
 	static let shared = SearchController()
 	var imageFetchDelegate: ImageFetchDelegate?
+	let downloader = ImageDownloader()
 	
 	let consumerKey = "7XNgKEe25LDq3fGqwGLA9ygEdYXm22XZqhxy4l82"
 	let searchURL = "https://api.500px.com/v1/photos/search"
@@ -50,36 +51,10 @@ class SearchController {
 			for (index, photo) in json["photos"] {
 				let photoEntry = Photo(photoData: photo)
 				self.photos.append(photoEntry)
-				self.downloadImage(forIndex: Int(index)!)
+//				self.downloadImage(forIndex: Int(index)!)
 			}
 			// Let the SearchViewController that we're ready to reload the CollectionView
-			self.imageFetchDelegate?.loadCollectionViewData()
+			self.imageFetchDelegate?.reloadCollectionViewData()
 		})
-	}
-	
-	func getImage(imageURL: URL, completion: @escaping (_ image: UIImage) -> ()) {
-		var img: UIImage?
-		Alamofire.request(imageURL, method: .get).responseImage { response in
-			
-			guard response.result.isSuccess else {
-				return
-			}
-			
-			img = UIImage(data: response.data!)
-			completion(img!)
-		}
-	}
-	
-	func downloadImage(forIndex: Int) {
-		Alamofire.request(URL(string:photos[forIndex].imageURL!)!, method: .get).responseImage { response in
-			
-			guard response.result.isSuccess else {
-				return
-			}
-			
-			var img: UIImage?
-			img = UIImage(data: response.data!)
-			self.photos[forIndex].image = img
-		}
 	}
 }

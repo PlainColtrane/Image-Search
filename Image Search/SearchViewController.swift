@@ -54,10 +54,10 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		activityIndicator.stopAnimating()
 	}
 	
-	func loadCollectionViewData() {
-		print("Loading Collection data")
+	func reloadCollectionViewData() {
+		print("Reloading Collection data")
 		searchCollectionView.reloadData()
-		searchCollectionView.isHidden = false
+		searchCollectionView.setContentOffset(CGPoint.zero, animated: true)
 		hideActivityIndicator()
 	}
 	
@@ -83,10 +83,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		return searchController.photos.count
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		
-	}
-	
+
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 	}
@@ -103,17 +100,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		guard searchController.photos.count > 0 else {
 			return cell
 		}
-		
-		cell.imageTitleLabel.text = searchController.photos[indexPath.row].name
-//		if cell.searchImageView.image == nil {
-//			searchController.getImage(imageURL: URL(string:searchController.photos[indexPath.row].imageURL!)!, completion: { image in
-//				cell.searchImageView.image = image
-//			})
-//		}
-		
-		if let image = searchController.photos[indexPath.row].image {
-			cell.searchImageView.image = image
-		}
+		cell.imageTitleLabel.text = self.searchController.photos[indexPath.row].name
+		cell.searchImageView.af_setImage(withURL: URL(string: self.searchController.photos[indexPath.row].imageURL!)!)
 		
 		return cell
 	}

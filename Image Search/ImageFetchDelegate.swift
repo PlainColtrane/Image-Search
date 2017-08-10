@@ -9,6 +9,6 @@
 import Foundation
 
 protocol ImageFetchDelegate {
-	func loadCollectionViewData()
+	func reloadCollectionViewData()
 	func showAlertError(errorMessage: String)
 }
