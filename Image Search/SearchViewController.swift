@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "SearchCell"
 
-class SearchViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ImageFetchDelegate, UISearchBarDelegate {
+class SearchViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ImageFetchDelegate, UISearchBarDelegate, UICollectionViewDelegateFlowLayout {
 	
 	let searchController = SearchController.shared
 
@@ -79,6 +79,25 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		return 1
 	}
 	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+//		let cellSize = CGSize(width:view.bounds.width/2 - 4, height: view.bounds.width/2 - 4)
+//		let layout = UICollectionViewFlowLayout()
+//		layout.scrollDirection = .vertical //.horizontal
+//		layout.itemSize = cellSize
+//		layout.sectionInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+//		layout.minimumLineSpacing = 1.0
+//		layout.minimumInteritemSpacing = 1.0
+//		searchCollectionView.setCollectionViewLayout(layout, animated: true)
+//		
+//		searchCollectionView.reloadData()
+		return CGSize(width: self.view.bounds.width/3 - 4, height: self.view.bounds.width/3 - 4 * 1.25)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+		return 1.0
+	}
+	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		// #warning Incomplete implementation, return the number of items
 		guard searchController.photos.count > 0 else {
@@ -92,9 +111,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 	}
-	
-
-
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SearchCell
@@ -112,7 +128,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		
 //		print("The difference is: \n\(searchController.photos.count - indexPath.item)")
 		
-		if (searchController.photos.count - indexPath.item) == 1 {
+		if (searchController.photos.count - indexPath.item) == 5 {
 			// Do nothing
 			searchController.incrementPage()
 			searchController.makeRequest()
@@ -125,7 +141,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		// Called just so we can realign the activity indicator to the center
 		coordinator.animate(alongsideTransition: { _ in
 			self.activityIndicator.center = self.view.center
-		}, completion: nil)
+		}, completion: { _ in
+			self.searchCollectionView.reloadData()
+		})
 		
 	}
 	
