@@ -15,6 +15,7 @@ class SearchCell: UICollectionViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		
+		// End any queue, animation, and remove any image
 		searchImageView.af_cancelImageRequest()
 		searchImageView.layer.removeAllAnimations()
 		searchImageView.image = nil

@@ -54,7 +54,6 @@ class SearchController {
 			}
 			
 			let json = JSON(response.data!)
-
 			for (_, photo) in json["photos"] {
 				let photoEntry = Photo(photoData: photo)
 				self.photos.append(photoEntry)

@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 protocol ImageFetchDelegate {
 	func reloadCollectionViewData()
 	func addMorePhotos()

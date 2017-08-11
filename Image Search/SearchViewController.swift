@@ -29,7 +29,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		searchController.imageFetchDelegate = self
-		searchController.makeRequest()
+		searchController.makeRequest() // Sets the initial request so that the Collection view is filled with dogs upon load
 		setupActivityIndicator()
 	}
 
@@ -52,12 +52,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func showAlertError(errorMessage: String) {
+		// Displays if there's an error while fetching photos
 		let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
 		present(alert, animated: true, completion: nil)
 	}
 	
 	func showFullscreenImage(index: Int) {
+		// Show "fullscreen" view after activating didSelectItemAt
 		searchBar.resignFirstResponder()
 		fullscreenView.isHidden = false
 		fullscreenLabel.text = searchController.photos[index].name
@@ -94,7 +96,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func addMorePhotos() {
-		// Called when we send a request for more entries
+		// Called when we send a request for more entries (and scroll the collection view towards the end indexes)
 		print("Adding cells for infinite scroll")
 		searchCollectionView.reloadData()
 	}
@@ -104,6 +106,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		// Makes sure we get 3 images in a row (with a couple pixels to spare) and that the imageView is a square shape
 		return CGSize(width: self.view.bounds.width/3 - 4, height: self.view.bounds.width/3 - 4)
 	}
 	
@@ -118,8 +121,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		showFullscreenImage(index: indexPath.row)
-		print(searchController.photos[indexPath.row])
-		
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -139,7 +140,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 			
 		})
 		
-		// Request the next page automatically
+		// Requests the next page of photos automatically
 		if (searchController.photos.count - indexPath.item) == 20 {
 			searchController.incrementPage() // Let the Controller know we want the next page in order
 			searchController.makeRequest()
