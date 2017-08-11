@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Image Search
 //
-//  Created by Matt Rayls on 8/9/17.
+//  Created by Matt Rayls on 8/10/17.
 //  Copyright © 2017 Matt Rayls. All rights reserved.
 //
 
@@ -23,10 +23,11 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	@IBOutlet weak var fullscreenLabel: UILabel!
 	@IBOutlet weak var fullscreenImageView: UIImageView!
 	@IBOutlet weak var fullscreenTextView: UITextView!
+	@IBOutlet weak var viewedCountLabel: UILabel!
+	@IBOutlet weak var favoriteCountLabel: UILabel!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
 		searchController.imageFetchDelegate = self
 		searchController.makeRequest()
 		setupActivityIndicator()
@@ -35,9 +36,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	func setupActivityIndicator() {
 		activityIndicator.hidesWhenStopped = true
 		activityIndicator.activityIndicatorViewStyle = .whiteLarge
-		view.addSubview(activityIndicator)
 		activityIndicator.center = self.view.center
-		
+		view.addSubview(activityIndicator)
 		showActivityIndicator()
 	}
 	
@@ -51,6 +51,42 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		activityIndicator.stopAnimating()
 	}
 	
+	func showAlertError(errorMessage: String) {
+		let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+		present(alert, animated: true, completion: nil)
+	}
+	
+	func showFullscreenImage(index: Int) {
+		searchBar.resignFirstResponder()
+		fullscreenView.isHidden = false
+		fullscreenLabel.text = searchController.photos[index].name
+		
+		if let text = searchController.photos[index].description {
+			fullscreenTextView.text = text
+			fullscreenTextView.isHidden = false
+		} else {
+			fullscreenTextView.isHidden = true
+		}
+		
+		if let viewed = searchController.photos[index].timesViewed {
+			viewedCountLabel.text = String(describing: viewed)
+		}
+		
+		if let favorites = searchController.photos[index].favoritesCount {
+			favoriteCountLabel.text = String(describing: favorites)
+		}
+		
+		fullscreenImageView.af_setImage(withURL: URL(string: searchController.photos[index].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: { _ in
+		
+		})
+	}
+	
+	@IBAction func hideFullscreenImage() {
+		fullscreenView.isHidden = true
+	}
+	
+	// MARK: UICollectionView Functions
 	func reloadCollectionViewData() {
 		// Called when we search for a keyword
 		print("Reloading Collection data")
@@ -65,26 +101,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		searchCollectionView.reloadData()
 	}
 	
-	func showAlertError(errorMessage: String) {
-		let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-		present(alert, animated: true, completion: nil)
-	}
-	
-	func showFullscreenImage(index: Int) {
-		fullscreenView.isHidden = false
-		fullscreenLabel.text = searchController.photos[index].name
-		
-		fullscreenImageView.af_setImage(withURL: URL(string: searchController.photos[index].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: { _ in
-	
-		})
-	}
-	
-	@IBAction func hideFullscreenImage() {
-		fullscreenView.isHidden = true
-	}
-	
-	// MARK: UICollectionView Functions
 	func numberOfSections(in collectionView: UICollectionView) -> Int {
 		return 1
 	}
@@ -103,7 +119,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		print("Selected")
 		showFullscreenImage(index: indexPath.row)
 		print(searchController.photos[indexPath.row])
 		
@@ -136,25 +151,15 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	}
 	
 	// MARK: SearchBar Functions
-	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		print("Editing has begun")
-	}
-	
-	func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-		print("Should end editing")
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		searchBar.resignFirstResponder()
 		
 		guard (searchBar.text?.characters.count)! > 0 else {
-			return true
+			return
 		}
 		
 		searchController.searchForKeyWord(keyword: searchBar.text!)
 		showActivityIndicator()
-		
-		return true
-	}
-	
-	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-		searchBar.resignFirstResponder()
 	}
 	
 	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -163,10 +168,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 			self.activityIndicator.center = self.view.center
 		}, completion: { _ in
 			self.searchCollectionView.reloadData()
-			self.view.layoutIfNeeded()
-			self.view.updateConstraints()
-			self.view.layoutSubviews()
 		})
-		
 	}
 }
