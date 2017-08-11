@@ -77,9 +77,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 			favoriteCountLabel.text = String(describing: favorites)
 		}
 		
-		fullscreenImageView.af_setImage(withURL: URL(string: searchController.photos[index].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: { _ in
-		
-		})
+		fullscreenImageView.af_setImage(withURL: URL(string: searchController.photos[index].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: nil)
 	}
 	
 	@IBAction func hideFullscreenImage() {
