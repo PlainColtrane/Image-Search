@@ -18,6 +18,12 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	@IBOutlet weak var searchCollectionView: UICollectionView!
 	let activityIndicator = UIActivityIndicatorView()
 	
+	// Fullscreen view
+	@IBOutlet weak var fullscreenView: UIView!
+	@IBOutlet weak var fullscreenLabel: UILabel!
+	@IBOutlet weak var fullscreenImageView: UIImageView!
+	@IBOutlet weak var fullscreenTextView: UITextView!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
@@ -65,14 +71,21 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		present(alert, animated: true, completion: nil)
 	}
 	
-	func showFullscreenImage(forIndex: Int) {
-		let imgView = UIImageView(frame: CGRect(x: view.bounds.width/2, y: view.bounds.height/2, width: view.bounds.width*0.9, height: view.bounds.height*0.75))
+	func showFullscreenImage(index: Int) {
+		fullscreenView.isHidden = false
+		fullscreenLabel.text = searchController.photos[index].name
 		
+		fullscreenImageView.af_setImage(withURL: URL(string: searchController.photos[index].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: { _ in
+	
+		})
+	}
+	
+	@IBAction func hideFullscreenImage() {
+		fullscreenView.isHidden = true
 	}
 	
 	// MARK: UICollectionView Functions
 	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		// #warning Incomplete implementation, return the number of sections
 		return 1
 	}
 	
@@ -91,7 +104,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		print("Selected")
-		showFullscreenImage(forIndex: indexPath.row)
+		showFullscreenImage(index: indexPath.row)
 		print(searchController.photos[indexPath.row])
 		
 	}
@@ -150,6 +163,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 			self.activityIndicator.center = self.view.center
 		}, completion: { _ in
 			self.searchCollectionView.reloadData()
+			self.view.layoutIfNeeded()
+			self.view.updateConstraints()
+			self.view.layoutSubviews()
 		})
 		
 	}

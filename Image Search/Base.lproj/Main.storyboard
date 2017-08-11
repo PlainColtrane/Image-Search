@@ -85,19 +85,90 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Xb9-WH-3bP"/>
                                 </connections>
                             </searchBar>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yaQ-X9-Hfa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <visualEffectView opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QVA-KU-glv">
+                                        <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="faS-fh-b5W">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <blurEffect style="dark"/>
+                                    </visualEffectView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bNW-W2-xK2">
+                                        <rect key="frame" x="19" y="100" width="338" height="467"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et " textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="NOJ-Ob-4cI">
+                                        <rect key="frame" x="19" y="577" width="338" height="77"/>
+                                        <color key="backgroundColor" red="0.24141308069229128" green="0.24141308069229128" blue="0.24141308069229128" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="77" id="GI6-zB-e28"/>
+                                        </constraints>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YdP-rq-S3Y">
+                                        <rect key="frame" x="1" y="60" width="375" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="YdP-rq-S3Y" secondAttribute="height" multiplier="25:2" id="BR2-ma-9zL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="27"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZC-IA-A1O">
+                                        <rect key="frame" x="19" y="100" width="338" height="467"/>
+                                        <connections>
+                                            <action selector="hideFullscreenImage" destination="BYZ-38-t0r" eventType="touchUpInside" id="znu-Va-Lc7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="sZC-IA-A1O" firstAttribute="height" secondItem="bNW-W2-xK2" secondAttribute="height" id="0oV-xd-aSZ"/>
+                                    <constraint firstItem="bNW-W2-xK2" firstAttribute="height" secondItem="yaQ-X9-Hfa" secondAttribute="height" multiplier="0.7" id="6QD-Fq-ifu"/>
+                                    <constraint firstItem="QVA-KU-glv" firstAttribute="width" secondItem="yaQ-X9-Hfa" secondAttribute="width" id="8VD-fZ-eub"/>
+                                    <constraint firstItem="bNW-W2-xK2" firstAttribute="centerX" secondItem="yaQ-X9-Hfa" secondAttribute="centerX" id="9lW-Ye-NmP"/>
+                                    <constraint firstItem="YdP-rq-S3Y" firstAttribute="centerX" secondItem="yaQ-X9-Hfa" secondAttribute="centerX" constant="1" id="D4V-a3-tJ0"/>
+                                    <constraint firstItem="bNW-W2-xK2" firstAttribute="centerY" secondItem="yaQ-X9-Hfa" secondAttribute="centerY" id="HgN-St-1x8"/>
+                                    <constraint firstItem="bNW-W2-xK2" firstAttribute="width" secondItem="yaQ-X9-Hfa" secondAttribute="width" multiplier="0.9" id="Juh-dJ-eNv"/>
+                                    <constraint firstItem="bNW-W2-xK2" firstAttribute="top" secondItem="YdP-rq-S3Y" secondAttribute="bottom" constant="10" id="M3l-X4-Npt"/>
+                                    <constraint firstItem="sZC-IA-A1O" firstAttribute="centerY" secondItem="bNW-W2-xK2" secondAttribute="centerY" id="UCe-lc-42z"/>
+                                    <constraint firstItem="YdP-rq-S3Y" firstAttribute="width" secondItem="yaQ-X9-Hfa" secondAttribute="width" id="Zf6-ZS-AeL"/>
+                                    <constraint firstItem="QVA-KU-glv" firstAttribute="height" secondItem="yaQ-X9-Hfa" secondAttribute="height" id="ank-FS-Xij"/>
+                                    <constraint firstItem="sZC-IA-A1O" firstAttribute="width" secondItem="bNW-W2-xK2" secondAttribute="width" id="eDC-os-304"/>
+                                    <constraint firstItem="sZC-IA-A1O" firstAttribute="centerX" secondItem="bNW-W2-xK2" secondAttribute="centerX" id="ghU-2d-brH"/>
+                                    <constraint firstItem="NOJ-Ob-4cI" firstAttribute="centerX" secondItem="yaQ-X9-Hfa" secondAttribute="centerX" id="ioE-Db-bGr"/>
+                                    <constraint firstItem="NOJ-Ob-4cI" firstAttribute="width" secondItem="bNW-W2-xK2" secondAttribute="width" id="jwu-t5-teZ"/>
+                                    <constraint firstItem="NOJ-Ob-4cI" firstAttribute="top" secondItem="bNW-W2-xK2" secondAttribute="bottom" constant="10" id="kGT-jk-fnG"/>
+                                    <constraint firstItem="QVA-KU-glv" firstAttribute="centerY" secondItem="yaQ-X9-Hfa" secondAttribute="centerY" id="twz-rJ-Gou"/>
+                                    <constraint firstItem="QVA-KU-glv" firstAttribute="centerX" secondItem="yaQ-X9-Hfa" secondAttribute="centerX" id="xF6-ZD-KaQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.24379589319229122" green="0.24379589319229122" blue="0.24379589319229122" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="GKL-Uw-Ujo" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="4sR-nm-345"/>
+                            <constraint firstItem="yaQ-X9-Hfa" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="5eQ-am-CEd"/>
                             <constraint firstItem="32i-Hh-eQE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="8VH-gM-Egt"/>
                             <constraint firstItem="32i-Hh-eQE" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.75" id="C06-BI-grh"/>
                             <constraint firstItem="GKL-Uw-Ujo" firstAttribute="top" secondItem="32i-Hh-eQE" secondAttribute="bottom" constant="8" id="Dty-Oe-eQL"/>
+                            <constraint firstItem="yaQ-X9-Hfa" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="JVC-Bt-r2y"/>
                             <constraint firstItem="GKL-Uw-Ujo" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="bgJ-OB-2Ap"/>
                             <constraint firstItem="GKL-Uw-Ujo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="it3-WA-SvZ"/>
+                            <constraint firstItem="yaQ-X9-Hfa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m2g-0q-f3U"/>
                             <constraint firstItem="32i-Hh-eQE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mwU-1e-dYM"/>
+                            <constraint firstItem="yaQ-X9-Hfa" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="rT7-hK-70G"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fullscreenImageView" destination="bNW-W2-xK2" id="eB5-wR-4B0"/>
+                        <outlet property="fullscreenLabel" destination="YdP-rq-S3Y" id="fLC-DV-J4i"/>
+                        <outlet property="fullscreenTextView" destination="NOJ-Ob-4cI" id="SGw-F3-cMv"/>
+                        <outlet property="fullscreenView" destination="yaQ-X9-Hfa" id="sHQ-s0-b1m"/>
                         <outlet property="searchBar" destination="32i-Hh-eQE" id="bTL-4a-OnO"/>
                         <outlet property="searchCollectionView" destination="GKL-Uw-Ujo" id="6u1-1y-q6V"/>
                     </connections>
