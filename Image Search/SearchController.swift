@@ -29,7 +29,7 @@ class SearchController {
 		parameters["consumer_key"] = consumerKey
 		parameters["term"] = "dogs"
 		parameters["page"] = "1"
-		parameters["image_size"] = "3"
+		parameters["image_size"] = "3, 600"
 	}
 	
 	func searchForKeyWord(keyword: String) {
