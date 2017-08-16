@@ -16,6 +16,7 @@
 		94275DC91F3BF7C6009441A7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94275DC81F3BF7C6009441A7 /* SearchController.swift */; };
 		9450F2A51F3C8DDF003061FA /* ImageFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9450F2A41F3C8DDF003061FA /* ImageFetchDelegate.swift */; };
 		9450F2AA1F3CEC82003061FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9450F2A91F3CEC82003061FA /* Assets.xcassets */; };
+		94B044781F44BC3900344F56 /* FullscreenDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B044771F44BC3900344F56 /* FullscreenDetailViewController.swift */; };
 		B65EAD66AAD9BC7D39BAD5DA /* Pods_Image_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 971DB123B5EB66F62A3A4548 /* Pods_Image_Search.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		94275DC81F3BF7C6009441A7 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		9450F2A41F3C8DDF003061FA /* ImageFetchDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFetchDelegate.swift; sourceTree = "<group>"; };
 		9450F2A91F3CEC82003061FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		94B044771F44BC3900344F56 /* FullscreenDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullscreenDetailViewController.swift; sourceTree = "<group>"; };
 		971DB123B5EB66F62A3A4548 /* Pods_Image_Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Image_Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				94275DAD1F3BD6CE009441A7 /* SearchViewController.swift */,
+				94B044771F44BC3900344F56 /* FullscreenDetailViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94275DC71F3BF79E009441A7 /* Photo.swift in Sources */,
+				94B044781F44BC3900344F56 /* FullscreenDetailViewController.swift in Sources */,
 				9450F2A51F3C8DDF003061FA /* ImageFetchDelegate.swift in Sources */,
 				94275DC91F3BF7C6009441A7 /* SearchController.swift in Sources */,
 				94275DC41F3BF262009441A7 /* SearchCell.swift in Sources */,

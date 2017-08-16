@@ -11,6 +11,7 @@ import SwiftyJSON
 
 struct Photo {	
 	let imageURL: String?
+	let highQualityImageURL: String?
 	let name: String?
 	let description: String?
 	let timesViewed: Int?
@@ -18,6 +19,7 @@ struct Photo {
 	
 	init(photoData: JSON) {
 		self.imageURL = photoData["images"][0]["url"].stringValue
+		self.highQualityImageURL = photoData["images"][1]["url"].stringValue
 		self.name = photoData["name"].stringValue
 		self.description = photoData["description"].stringValue
 		self.timesViewed = photoData["times_viewed"].intValue

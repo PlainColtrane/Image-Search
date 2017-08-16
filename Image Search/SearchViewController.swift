@@ -18,14 +18,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	@IBOutlet weak var searchCollectionView: UICollectionView!
 	let activityIndicator = UIActivityIndicatorView()
 	
-	// Fullscreen view
-	@IBOutlet weak var fullscreenView: UIView!
-	@IBOutlet weak var fullscreenLabel: UILabel!
-	@IBOutlet weak var fullscreenImageView: UIImageView!
-	@IBOutlet weak var fullscreenTextView: UITextView!
-	@IBOutlet weak var viewedCountLabel: UILabel!
-	@IBOutlet weak var favoriteCountLabel: UILabel!
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		searchController.imageFetchDelegate = self
@@ -56,34 +48,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
 		present(alert, animated: true, completion: nil)
-	}
-	
-	func showFullscreenImage(index: Int) {
-		// Show "fullscreen" view after activating didSelectItemAt
-		searchBar.resignFirstResponder()
-		fullscreenView.isHidden = false
-		fullscreenLabel.text = searchController.photos[index].name
-		
-		if let text = searchController.photos[index].description {
-			fullscreenTextView.text = text
-			fullscreenTextView.isHidden = false
-		} else {
-			fullscreenTextView.isHidden = true
-		}
-		
-		if let viewed = searchController.photos[index].timesViewed {
-			viewedCountLabel.text = String(describing: viewed)
-		}
-		
-		if let favorites = searchController.photos[index].favoritesCount {
-			favoriteCountLabel.text = String(describing: favorites)
-		}
-		
-		fullscreenImageView.af_setImage(withURL: URL(string: searchController.photos[index].imageURL!)!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.4), runImageTransitionIfCached: false, completion: nil)
-	}
-	
-	@IBAction func hideFullscreenImage() {
-		fullscreenView.isHidden = true
 	}
 	
 	// MARK: UICollectionView Functions
@@ -120,7 +84,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 	
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		showFullscreenImage(index: indexPath.row)
+		print("Selected Item at: \(indexPath.row)")
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -147,6 +111,16 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 		}
 		
 		return cell
+	}
+	
+	// MARK: PrepareForSegue
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "detailSegue" {
+			let fullscreenDetailVC = segue.destination as! FullscreenDetailViewController
+			if let indexPath = searchCollectionView.indexPathsForSelectedItems?.first {
+				fullscreenDetailVC.index = indexPath.row
+			}
+		}
 	}
 	
 	// MARK: SearchBar Functions
